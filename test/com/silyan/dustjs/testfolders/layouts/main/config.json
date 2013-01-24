@@ -1,0 +1,17 @@
+{
+	"escapeEOL": true,
+	"escapeTAB": true,
+    "serverTemplates" : [],
+    "clientTemplates" : [],
+	"environments" : {
+		"default" : {
+		    "layoutVersion": "4.0_LAYOUT"
+		},
+	    "development" : {
+	    },
+	    "production" : {
+	    },
+	    "test" : {
+	    }
+	}
+}

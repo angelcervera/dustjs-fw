@@ -1,0 +1,17 @@
+{
+	"targetPath" : "/system/user.html",
+	"escapeEOL": true,
+    "serverTemplates" : ["/layouts/main"],
+    "clientTemplates" : [],
+	"environments" : {
+		"default" : {
+		    "pageVersion": "4.0_PAGE"
+		},
+	    "development" : {
+	    },
+	    "production" : {
+	    },
+	    "test" : {
+	    }
+	}
+}

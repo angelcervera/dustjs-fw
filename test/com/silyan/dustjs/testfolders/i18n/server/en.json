@@ -1,0 +1,7 @@
+{
+	"notPresentInOtherOnlyServerSide": "This text is not present in other translations.",
+	"language": "English",
+	"dateFormatter" : "",
+	"timeFormatter" : "",
+	"serverText" : "Text in server side"
+}

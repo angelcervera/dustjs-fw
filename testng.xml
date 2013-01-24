@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="DustJs-Java" parallel="classes">
+	<test name="Compile">
+		<classes>
+			<class name="com.silyan.dustjs.utils.IOUtilsTest" />
+			<class name="com.silyan.dustjs.utils.JacksonUtilsTest" />
+			<class name="com.silyan.dustjs.DustJsTest" />
+			<class name="com.silyan.dustjs.ProjectBuilderTest" />
+			<class name="com.silyan.dustjs.model.TemplateTest" />
+			<class name="com.silyan.dustjs.model.ProjectTest" />
+			<class name="com.silyan.dustjs.model.ConfigurationTest" />
+			<class name="com.silyan.dustjs.model.PageRenderedTest" />
+		</classes>
+	</test> <!-- DustJsTest -->
+</suite>

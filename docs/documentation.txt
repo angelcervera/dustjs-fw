@@ -1,0 +1,121 @@
+         _____            _       _  _____                     _       
+        |  __ \          | |     | |/ ____|     /\            | |      
+        | |  | |_   _ ___| |_    | | (___      /  \   _ __ ___| |__    
+        | |  | | | | / __| __|   | |\___ \    / /\ \ | '__/ __| '_ \   
+        | |__| | |_| \__ \ || |__| |____) |  / ____ \| | | (__| | | |_ 
+        |_____/ \__,_|___/\__\____/|_____/  /_/    \_\_|  \___|_| |_(_)
+
+
+.
+├── build                                   ---> (1)        Temporal folder with generated files.
+├── source                                  ---> (2)        Statics resources.
+├── templates                               ---> (3)        Templates.
+│   ├── layouts                             ---> (3.1)      Layouts.
+│   │   └── main                            ---> (3.1.1)    Templates definition (in this case, named "main").
+│   │       ├── config.json                 ---> (3.1.1.1)  Configuration file.
+│   │       ├── template.tl                 ---> (3.1.1.3)  Template.
+│   │       ├─── i18n                       ---> (3.1.1.4)  I18n information.
+│   │       │   ├── en.json
+│   │       │   └── es.json
+│   │       └─ scripts                      ---> (3.1.1.5)  JS scripts necessaries for layout.
+│   │           ├── 01_script_xx.js
+│   │           └── 02_script_yy.js
+│   │           
+│   └── components                          ---> (3.2)      Shared components.
+│       └── nav-left
+│           ├── config.json 
+│           ├── template.tl
+│           ├─── i18n
+│           │   ├── en.json
+│           │   └── es.json
+│           └─ scripts
+│              ├── 01_script_xx.js
+│              └── 02_script_yy.js
+├── library                                 ---> (3.3)      Library.
+│
+│
+└── pages
+    ├── cms
+    │   └── filter
+    └── system
+        └── user
+            ├── config.json
+            ├── i18n
+            │   ├── en.json
+            │   └── es.json
+            ├── render.json                 ---> JSON used in preprocess
+            ├── ajax_mock.js ???            ---> https://github.com/appendto/jquery-mockjax
+            ├── scripts
+            │   └── 01_script.js
+            └── template.tl
+
+
+
+
+(1)   build
+Temporal folder where is stored all generated files.
+
+(2)   source
+Folder with in static resources.
+
+(3)   templates
+Folder with in dynamic resources.
+
+(3.1) templates/layouts
+Folder with templates used as base layout for definitive pages.
+Each child folder contain a different layout.
+
+(3.1.1) templates/layouts/main
+As mentioned previously, it would be a layout named "main".
+This folder would contain all resources associated with this templates.
+When applications processed, this templates will be registered with the folder's name for use with pages templates.
+
+(3.1.1.1) templates/layouts/main/config.json
+Configuration file used for preprocess templates.
+TODO!!
+
+(3.1.1.3) templates/layouts/main/template.tl
+DustJS template.
+
+(3.1.1.4) templates/layouts/main/i18n
+I18n information.
+Each file inside this folder contain translated data associated with one key.
+This files has json format.
+The name of the file represent its language and content, so its name it's very important.
+The name must be a valid combination between language and country (or region) (in this order), separated with "_" character ( {language}_{country or region} ).
+language = ISO-639 alpha-2 or alpha-3 language code. [a-zA-Z]{2,8} For example: "es" Spanish or "en" English
+country or region = ISO-3166 alpha-2 country code or UN M.49 numeric-3 area code. [a-zA-Z]{2} | [0-9]{3} For example: "ES" Spain or "US" (United States)
+With this two values, it's possible obtain translation information and the correct format for numbers, currency, dates, time, etc...
+Languages is required but country is optional.
+
+The format for this file are:
+en.json :
+{
+	example: "example",
+	otherkey: "Other key for the example.",
+	otherkey2: "Other key for the example.",
+	keyxxxx: "English value for keyxxxx"
+}
+
+es.json :
+{
+	example: "Ejemplo",
+	otherkey: "Otra clave para el ejemplo.",
+	otherkey2: "Otra clave para el ejemplo.",
+	keyxxxx: "Valor español para la clave keyxxxx"
+}
+
+This values will be merged with page's i18n files, so it's possible use it for default i18n values. I will speak about it later.
+
+(3.1.1.5) templates/layouts/main/scripts
+JS scripts necessaries for layout.
+For production environments, all this scripts will be concatenated in one file with other external scripts (as indicated in configuration file), ordered for name and compressed.
+
+(3.2)     templates/components
+This folder contains shared components between all application.
+Like in "templates/layout" sibling folder, contains children folder. Each child folder has same structure like "templates/layout" folder, but it defines components reusable from layouts or pages.
+
+
+
+
+

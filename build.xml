@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dustjs-java" default="dist" basedir=".">
+	<description>
+        Ant plugin to compile dustjs templates.
+    </description>
+	
+	<!-- set global properties for this build -->
+	<property file="./build.properties"/>
+	
+	<target name="init">
+		<!-- Create the time stamp . Access using ${DSTAMP} -->
+		<tstamp />
+		
+		<!-- Create the build directory structure used by compile -->
+		<delete dir="${build}" failonerror="false" />
+		<mkdir dir="${build}" />
+		<delete dir="${dist}" failonerror="false" />
+		<mkdir dir="${dist}" />
+	</target>
+	
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="false" debuglevel="lines,vars,source" >
+			<classpath>
+				<pathelement location="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar"/>
+				<pathelement location="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	
+	<target name="dist" depends="compile" description="generate the distribution">
+	
+		<jar jarfile="${dist}/${project.name}-${project.version}.jar" basedir="${build}">
+			<!-- TODO: META-INF -->
+		</jar>
+		
+		<mkdir dir="${dist}/lib"/>
+		<copy file="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar" todir="${dist}/lib"></copy>
+		<copy file="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar" todir="${dist}/lib"></copy>
+		<copy file="${lib}/java/jackson/2.1.0/jackson-annotations-2.1.0.jar" todir="${dist}/lib"></copy>
+		
+		
+	</target>
+
+	<!-- Limpiamos los directorios generados. -->
+	<target name="clean" description="clean up">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+	
+</project>

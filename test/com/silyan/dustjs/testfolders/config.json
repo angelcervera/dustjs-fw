@@ -1,0 +1,25 @@
+{
+	"defaultLanguage" : "en",
+	"escapeEOL": true,
+    "serverTemplates" : [],
+    "clientTemplates" : ["/components/mainmenu"],
+	"environments": {
+		"default" : {
+		    "applicationVersion": "4.0_APP",
+		    "contextpath": ""
+		},
+	    "development" : {
+	        "contextpath": "/dust-js-proof/",
+	        "srvpath": "/dust-js-proof/api/",
+	        "compress": false
+	    },
+	    "production" : {
+	        "srvpath": "/api/",
+	        "compress": true
+	    },
+	    "test" : {
+	        "srvpath": "/api/",
+	        "compress": true
+	    }
+	}
+}

@@ -1,0 +1,1 @@
+(function(){dust.register("test/com/silyan/dustjs/test2/test",body_0);function body_0(chk,ctx){return chk.reference(ctx.get("title"),ctx,"h").write("\n<ul>\n").section(ctx.get("names"),ctx,{"block":body_1},null).write("</ul>");}function body_1(chk,ctx){return chk.write("<li>").reference(ctx.get("name"),ctx,"h").write("</li>\n");}return body_0;})();
