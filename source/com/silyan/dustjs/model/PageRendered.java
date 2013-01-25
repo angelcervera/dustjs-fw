@@ -79,6 +79,55 @@ public class PageRendered {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
+	private static void generateClientTranslations(String language, String templateName, Project project, List<Map> lngTranslations) {
+		Map<String, Template> templates = project.getTemplates();
+		Template template = templates.get(templateName);
+		
+		lngTranslations.add(project.getConfig().getClientTranslations().get(language)); // Adds project translations.
+		for (String referencedTemplateName : template.getConfigutation().getClientTemplates()) { // Adds templates translations.
+			Template referencedTemplate = templates.get(referencedTemplateName);
+			if(referencedTemplate == null) {
+				throw new RuntimeException("Template ["+referencedTemplateName+"] not found.");
+			}
+			Map<String, String> translations = referencedTemplate.getConfigutation().getClientTranslations().get(language);
+			if(translations == null) {
+				throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+referencedTemplateName+"].");
+			}
+			lngTranslations.add( translations );
+		}
+		Map<String, String> templateTranslations = template.getConfigutation().getClientTranslations().get(language);
+		if(templateTranslations == null) {
+			throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+templateName+"].");
+		}
+		lngTranslations.add(templateTranslations); // Adds page translations.
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private static void generateServerTranslations(String language, String templateName, Project project, List<Map> lngTranslations) {
+		Map<String, Template> templates = project.getTemplates();
+		Template template = templates.get(templateName);
+		
+		lngTranslations.add(project.getConfig().getServerTranslations().get(language)); // Adds project translations.
+		for (String referencedTemplateName : template.getConfigutation().getServerTemplates()) { // Adds templates translations.
+			Template referencedTemplate = templates.get(referencedTemplateName);
+			if(referencedTemplate == null) {
+				throw new RuntimeException("Template ["+referencedTemplateName+"] not found.");
+			}
+			Map<String, String> translations = referencedTemplate.getConfigutation().getServerTranslations().get(language);
+			if(translations == null) {
+				throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+referencedTemplateName+"].");
+			}
+			lngTranslations.add( translations );
+		}
+		Map<String, String> templateTranslations = template.getConfigutation().getServerTranslations().get(language);
+		if(templateTranslations == null) {
+			throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+templateName+"].");
+		}
+		lngTranslations.add(templateTranslations); // Adds page translations.
+	}
+	
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static PageRendered fromTemplate(String language, String environment, String name, Project project, ObjectMapper mapper) throws JsonGenerationException, JsonMappingException, IOException {
 		Map<String, Template> templates = project.getTemplates();
@@ -102,48 +151,22 @@ public class PageRendered {
 			}
 		}
 		
-		// Generate i18n for client side.
+		// Generate i18n.
 		// It must iterates over i18n translations in all templates used and merge them with translations in page.
+		String defaultLanguage = project.getConfig().getDefaultLanguage();
+		
+		// Generate default translations.
+		
+		// Generate i18n for client side.
 		List<Map> lngTranslations = new ArrayList<>();
-		lngTranslations.add(project.getConfig().getClientTranslations().get(language)); // Adds project translations.
-		for (String referencedTemplateName : template.getConfigutation().getClientTemplates()) { // Adds templates translations.
-			Template referencedTemplate = templates.get(referencedTemplateName);
-			if(referencedTemplate == null) {
-				throw new RuntimeException("Template ["+referencedTemplateName+"] not found.");
-			}
-			Map<String, String> translations = referencedTemplate.getConfigutation().getClientTranslations().get(language);
-			if(translations == null) {
-				throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+referencedTemplateName+"].");
-			}
-			lngTranslations.add( translations );
-		}
-		Map<String, String> templateTranslations = template.getConfigutation().getClientTranslations().get(language);
-		if(templateTranslations == null) {
-			throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+name+"].");
-		}
-		lngTranslations.add(templateTranslations); // Adds page translations.
+		generateClientTranslations(defaultLanguage, name, project, lngTranslations);
+		generateClientTranslations(language, name, project, lngTranslations);
 		render.clientTranslations = JacksonUtils.mergeListOfMaps(lngTranslations);
 		
 		// Generate i18n for server side.
-		// It must iterates over i18n translations in all templates used and merge them with translations in page.
 		lngTranslations = new ArrayList<>();
-		lngTranslations.add(project.getConfig().getServerTranslations().get(language)); // Adds project translations.
-		for (String referencedTemplateName : template.getConfigutation().getServerTemplates()) { // Adds templates translations.
-			Template referencedTemplate = templates.get(referencedTemplateName);
-			if(referencedTemplate == null) {
-				throw new RuntimeException("Template ["+referencedTemplateName+"] not found.");
-			}
-			Map<String, String> translations = referencedTemplate.getConfigutation().getServerTranslations().get(language);
-			if(translations == null) {
-				throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+referencedTemplateName+"].");
-			}
-			lngTranslations.add( translations );
-		}
-		templateTranslations = template.getConfigutation().getServerTranslations().get(language);
-		if(templateTranslations == null) {
-			throw new RuntimeException("Translations for languages ["+language+"] not found in template ["+name+"].");
-		}
-		lngTranslations.add(templateTranslations); // Adds page translations.
+		generateServerTranslations(defaultLanguage, name, project, lngTranslations);
+		generateServerTranslations(language, name, project, lngTranslations);
 		render.serverTranslations = JacksonUtils.mergeListOfMaps(lngTranslations);
 		
 		// Generate list of parameters for client side.
