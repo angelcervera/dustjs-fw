@@ -29,9 +29,18 @@
 	
 	
 	<target name="dist" depends="compile" description="generate the distribution">
-	
+
+		<copy overwrite="true" todir="${build}">
+			<fileset dir="${src}">
+				 <exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
 		<jar jarfile="${dist}/${project.name}-${project.version}.jar" basedir="${build}">
-			<!-- TODO: META-INF -->
+		    <manifest>
+		    	<attribute name="Class-Path" value="lib/jackson-annotations-2.1.0.jar lib/jackson-core-2.1.0.jar lib/jackson-databind-2.1.0.jar"/>
+		      <attribute name="Main-Class" value="com.silyan.dustjs.Main"/>
+		    </manifest>
 		</jar>
 		
 		<mkdir dir="${dist}/lib"/>
@@ -39,13 +48,51 @@
 		<copy file="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar" todir="${dist}/lib"></copy>
 		<copy file="${lib}/java/jackson/2.1.0/jackson-annotations-2.1.0.jar" todir="${dist}/lib"></copy>
 		
+	</target>
+	
+	<target name="compile-test" depends="init" description="compile the source ">
+		<javac srcdir="${src-test}" destdir="${build-test}" includeantruntime="false" debug="false" debuglevel="lines,vars,source" >
+			<classpath>
+				<pathelement location="${dist}/${project.name}-${project.version}.jar"/>
+				<pathelement location="${lib}/java/testng/6.8/testng-6.8.jar"/>
+				<pathelement location="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar"/>
+				<pathelement location="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="dist-test" depends="dist,compile-test" description="generate test jar">
+
+		<copy overwrite="true" todir="${build-test}">
+			<fileset dir="${src-test}">
+				 <exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<jar jarfile="${dist-test}/${project.name}-${project.version}-test.jar" basedir="${build-test}">
+		</jar>
 		
 	</target>
 
-	<!-- Limpiamos los directorios generados. -->
+	<!-- Clean generated folders. -->
 	<target name="clean" description="clean up">
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
+	</target>
+	
+	<taskdef resource="testngtasks" classpath="${lib}/java/testng/6.8/testng-6.8.jar"/>
+	<target name="test" depends="dist-test">
+		<testng>
+			<classpath>
+				<pathelement location="${dist-test}/${project.name}-${project.version}-test.jar"/>
+				<pathelement location="${dist}/${project.name}-${project.version}.jar"/>
+				<pathelement location="${dist}/lib/jackson-annotations-2.1.0.jar"/>
+				<pathelement location="${dist}/lib/jackson-core-2.1.0.jar"/>
+				<pathelement location="${dist}/lib/jackson-databind-2.1.0.jar"/>
+			</classpath>
+			<xmlfileset dir="." includes="testng.xml"/>
+		</testng>
+
 	</target>
 	
 </project>

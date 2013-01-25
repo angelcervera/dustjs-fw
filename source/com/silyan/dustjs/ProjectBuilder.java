@@ -39,6 +39,15 @@ public class ProjectBuilder {
 	public ProjectBuilder(Path rootFolder) throws ScriptException, IOException {
 		dustJs = new DustJs();
 		project = Project.fromFolder(rootFolder, jsonMapper);
+		compile();
+	}
+	
+	public void process(String environment, Path targetFolder ) throws ScriptException, IOException {
+		Map<String, List<PageRendered>> renderedPages = render(environment);
+		writeToFileSystem(
+				targetFolder,
+				renderedPages
+			);
 	}
 	
 	/**
