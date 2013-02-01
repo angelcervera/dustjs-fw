@@ -68,7 +68,7 @@ public class JacksonUtils {
 		class LoadFileAsMap extends SimpleFileVisitor<Path> {
 
 			private PathMatcher matcher;
-			private ObjectMapper mapper = new ObjectMapper();
+			private ObjectMapper mapper;
 			private Map<String,Map<String,String>> maps;
 
 			public LoadFileAsMap(Map<String,Map<String,String>> maps, ObjectMapper mapper) {
