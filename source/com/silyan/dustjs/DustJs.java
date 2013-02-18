@@ -32,10 +32,10 @@ public class DustJs {
 	
 	{
 		try {
-			dustjs =          IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/dust.js");
-			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/compiler.js");
-			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/parser.js");
-			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/dust-helpers-1.1.0.js");
+			dustjs =          IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/1.2.0/dust-full-1.2.0.js");
+//			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/compiler.js");
+//			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/parser.js");
+			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/helper/1.1.1/dust-helpers-1.1.1.js");
 			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/dust-more-helpers.js");
 			json2js = IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/json2.js");
 			renderjs = IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/render.js");
@@ -80,9 +80,12 @@ public class DustJs {
 	public String compile(Template template) throws ScriptException {
 		engine.put("template", template.getTemplate() );
 		engine.put("name", template.getName() );
-		template.setCompiled((String) engine.eval("dust.compile(\"\" + template + \"\", name)"));
+		String compiled = (String) engine.eval("dust.compile(\"\" + template + \"\", name)"); // FIXME: Very very very low performance !!!!
 		engine.eval("delete template;");
 		engine.eval("delete name;");
+		
+		template.setCompiled(compiled);
+		System.out.println("Compiled template: " + template.getName() );
 		return template.getCompiled();
 	}
 	
@@ -128,6 +131,7 @@ public class DustJs {
 		engine.put("renderObj", render );
 		engine.eval("renderDustJS(renderObj);");
 		engine.eval("delete renderObj;");
+		System.out.println("Rendered page: " + render.getName() );
 	}
 	
 

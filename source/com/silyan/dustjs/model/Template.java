@@ -172,6 +172,10 @@ public class Template {
 			template.setTemplate( template.getTemplate().replace("\t", "{~s}{~s}{~s}") );
 		}
 		
+		
+		System.out.println("Created new template: " + template.getName() );
+		
+		
 		return template;
 	}
 
