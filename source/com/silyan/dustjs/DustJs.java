@@ -33,8 +33,6 @@ public class DustJs {
 	{
 		try {
 			dustjs =          IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/1.2.0/dust-full-1.2.0.js");
-//			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/compiler.js");
-//			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/parser.js");
 			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/helper/1.1.1/dust-helpers-1.1.1.js");
 			dustjs = dustjs + IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/dust-more-helpers.js");
 			json2js = IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/json2.js");
