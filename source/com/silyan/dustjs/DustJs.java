@@ -6,6 +6,8 @@ package com.silyan.dustjs;
 import java.io.IOException;
 import java.util.List;
 
+import javax.script.Compilable;
+import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -30,6 +32,8 @@ public class DustJs {
 	private static String renderjs;
 	private static String json2js;
 	
+	private CompiledScript scripts;
+	
 	{
 		try {
 			dustjs =          IOUtils.toStringFromClassPath("com/silyan/dustjs/resources/1.2.0/dust-full-1.2.0.js");
@@ -50,9 +54,11 @@ public class DustJs {
 		
         manager = new ScriptEngineManager();
         engine = manager.getEngineByName("JavaScript");
-        engine.eval(dustjs);
-        engine.eval(json2js);
-        engine.eval(renderjs);
+        
+        Compilable compiledScript = (Compilable)engine;
+        scripts = compiledScript.compile(dustjs + renderjs + json2js);
+        scripts.eval();
+
 	}
 
 	/**
