@@ -39,10 +39,9 @@ public class ProjectBuilder {
 	public ProjectBuilder(Path rootFolder) throws ScriptException, IOException {
 		dustJs = new DustJs();
 		project = Project.fromFolder(rootFolder, jsonMapper);
-		compile();
 	}
 	
-	public void process(String environment, Path targetFolder ) throws ScriptException, IOException {
+	public void render(String environment, Path targetFolder ) throws ScriptException, IOException {
 		Map<String, List<PageRendered>> renderedPages = render(environment);
 		writeToFileSystem(
 				targetFolder,
@@ -56,22 +55,43 @@ public class ProjectBuilder {
 	 * @throws ScriptException
 	 */
 	protected void compile() throws ScriptException  {
+		
+		System.out.println("Found " + (project.getComponents().size() + project.getLayouts().size() + project.getPages().size()) + " templates.");
+		System.out.println("Found " + project.getComponents().size() + " components.");
+		System.out.println("Found " + project.getLayouts().size() + " layouts.");
+		System.out.println("Found " + project.getPages().size() + " pages.");
+
+		
 		dustJs.compile( project.getComponents() );
 		dustJs.compile( project.getLayouts() );
 		dustJs.compile( project.getPages() );
+		
+//		// Concurrent process
+//		ExecutorService executorService = Executors.newFixedThreadPool(1);
+//		addToPool( executorService, project.getComponents() );
+//		addToPool( executorService, project.getLayouts() );
+//		addToPool( executorService, project.getPages() );
 		
 		dustJs.loadSource( project.getComponents() );
 		dustJs.loadSource( project.getLayouts() );
 		dustJs.loadSource( project.getPages() );
 	}
 	
+//	private void addToPool(ExecutorService executorService, List<Template> templates) {
+//		for (Template template : templates) {
+//			executorService.execute( new DustJSCompilerTask(dustJs, template));
+//		}
+//	}
+	
 	/**
 	 * With all templates compiled previously, renders statics ( pages ).
 	 * 
+	 * @param environment
+	 * @return Map indexed by language. Values of map are lists of rendered pages.
 	 * @throws ScriptException
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonGenerationException 
+	 * @throws JsonGenerationException
+	 * @throws JsonMappingException
+	 * @throws IOException
 	 */
 	protected Map<String, List<PageRendered>> render(String environment) throws ScriptException, JsonGenerationException, JsonMappingException, IOException  {
 		

@@ -29,7 +29,7 @@ public class DustJsTest {
 		
 		try {
 			
-			for (int i = 1; i < 3; i++) {
+			for (int i = 1; i < 5; i++) {
 				TemplateModelTest test = new TemplateModelTest("test/com/silyan/dustjs/test"+i+"/test", IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.tl"));
 				test.compiledExpected = IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.compiled" );
 				templates.add( test );

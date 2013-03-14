@@ -82,14 +82,20 @@ public class DustJs {
 	 * @throws ScriptException
 	 */
 	public String compile(Template template) throws ScriptException {
-		engine.put("template", template.getTemplate() );
-		engine.put("name", template.getName() );
-		String compiled = (String) engine.eval("dust.compile(\"\" + template + \"\", name)"); // FIXME: Very very very low performance !!!!
-		engine.eval("delete template;");
-		engine.eval("delete name;");
+		long initMMS = System.currentTimeMillis();
+		System.out.println("Compiling template: " + template.getName() );
 		
+		long id = Thread.currentThread().getId();
+		String templateVariable = "template_" + id;
+		String nameVariable = "name_" + id;
+		engine.put(templateVariable, template.getTemplate() );
+		engine.put(nameVariable, template.getName() );
+		String compiled = (String) engine.eval("dust.compile(\"\" + "+templateVariable+" + \"\", "+nameVariable+")"); // FIXME: Very very very low performance !!!!
+		engine.eval("delete "+templateVariable+";");
+		engine.eval("delete "+nameVariable+";");
 		template.setCompiled(compiled);
-		System.out.println("Compiled template: " + template.getName() );
+
+		System.out.println("Compiled template: " + template.getName() + " in  " + (System.currentTimeMillis()-initMMS) + " mms" );
 		return template.getCompiled();
 	}
 	

@@ -20,6 +20,9 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * Project metadata.
+ * Must be independent of templates engine used.
+ * 
  * @author Angel Cervera Claudio ( angelcervera@silyan.com )
  *
  */
