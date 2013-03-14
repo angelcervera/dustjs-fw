@@ -36,8 +36,8 @@ public class ProjectBuilder {
 	
 	protected ObjectMapper jsonMapper = new ObjectMapper();
 	
-	public ProjectBuilder(Path rootFolder) throws ScriptException, IOException {
-		dustJs = new DustJs();
+	public ProjectBuilder(Path rootFolder, Path cacheFolder) throws ScriptException, IOException {
+		dustJs = new DustJs(cacheFolder);
 		project = Project.fromFolder(rootFolder, jsonMapper);
 	}
 	
@@ -53,8 +53,9 @@ public class ProjectBuilder {
 	 * Compile all templates in the project and load it.
 	 * 
 	 * @throws ScriptException
+	 * @throws IOException 
 	 */
-	protected void compile() throws ScriptException  {
+	protected void compile() throws ScriptException, IOException  {
 		
 		System.out.println("Found " + (project.getComponents().size() + project.getLayouts().size() + project.getPages().size()) + " templates.");
 		System.out.println("Found " + project.getComponents().size() + " components.");

@@ -32,6 +32,11 @@ public class Template {
 	
 	public Configuration configutation;
 	
+	/**
+	 * Last modification of any file used in this template.
+	 */
+	public Long lastModification;
+	
 	public Template() {
 		
 	}
@@ -112,11 +117,23 @@ public class Template {
 		this.configutation = configutation;
 	}
 
+	/**
+	 * @return the lastModification
+	 */
+	public Long getLastModification() {
+		return lastModification;
+	}
+
+	/**
+	 * @param lastModification the lastModification to set
+	 */
+	public void setLastModification(Long lastModification) {
+		this.lastModification = lastModification;
+	}
 	
 	
-	
-	
-	
+
+
 	/**
 	 * Factory.
 	 * Build a template from a folder.
@@ -172,11 +189,30 @@ public class Template {
 			template.setTemplate( template.getTemplate().replace("\t", "{~s}{~s}{~s}") );
 		}
 		
+		// Calculate last modification.
+		long lastTime = 0;
+		
+		if(templatePath.toFile().exists()) { // Calculate last modification of config file
+			long tmpLastTime = templatePath.toFile().lastModified();
+			if(tmpLastTime > lastTime) {
+				lastTime = tmpLastTime;
+			}
+		}
+		
+		if(template.getConfigutation().getLastModification() > lastTime) {
+			lastTime = template.getConfigutation().getLastModification();
+		}
+		
+		template.setLastModification(lastTime);
 		
 		System.out.println("Created new template: " + template.getName() );
 		
 		
 		return template;
+	}
+	
+	public void storeCache() {
+		
 	}
 
 }

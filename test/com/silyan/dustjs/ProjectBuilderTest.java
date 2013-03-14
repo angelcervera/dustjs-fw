@@ -21,12 +21,13 @@ public class ProjectBuilderTest {
 	@BeforeClass
 	public void init() throws ScriptException, IOException {
 		projectBuilder = new ProjectBuilder(
-			Paths.get("./test/com/silyan/dustjs/testfolders")
+			Paths.get("./test/com/silyan/dustjs/testfolders"),
+			Paths.get("./build/test-cache")
 		);
 	}
 	
 	@Test
-	public void compile() {
+	public void compile() throws IOException {
 		try {
 			
 			projectBuilder.compile();

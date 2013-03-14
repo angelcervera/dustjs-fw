@@ -3,6 +3,7 @@
  */
 package com.silyan.dustjs.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,10 @@ public class IOUtils {
 	
 	public static String toStringFromFile(Path path) throws IOException {
 		return toStringFromInputStream(Files.newInputStream(path));
+	}
+	
+	public static void toFileFromString(String str, Path path) throws IOException {
+		copy(new ByteArrayInputStream(str.getBytes()), Files.newOutputStream(path));
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package com.silyan.dustjs;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DustJsTest {
 	
 	@BeforeClass
 	public void init() throws ScriptException {
-		dustjs = new DustJs();
+		dustjs = new DustJs(Paths.get("/tmp/test-cache"));
 	}
 	
 	@Test

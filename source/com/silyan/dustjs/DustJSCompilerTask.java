@@ -3,6 +3,8 @@
  */
 package com.silyan.dustjs;
 
+import java.io.IOException;
+
 import javax.script.ScriptException;
 
 import com.silyan.dustjs.model.Template;
@@ -25,7 +27,7 @@ public class DustJSCompilerTask implements Runnable {
 	public void run() {
 		try {
 			dustJs.compile( template );
-		} catch (ScriptException e) {
+		} catch (ScriptException | IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -4,6 +4,8 @@
 package com.silyan.dustjs;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.script.Compilable;
@@ -32,6 +34,8 @@ public class DustJs {
 	private static String renderjs;
 	private static String json2js;
 	
+	private Path cacheFolder;
+	
 	private CompiledScript scripts;
 	
 	{
@@ -49,8 +53,11 @@ public class DustJs {
     private ScriptEngineManager manager;
     private ScriptEngine engine;
 	
-	public DustJs() throws ScriptException {
+	public DustJs(Path cacheFolder) throws ScriptException {
 		super();
+		
+		this.cacheFolder = cacheFolder;
+		this.cacheFolder.toFile().mkdirs();
 		
         manager = new ScriptEngineManager();
         engine = manager.getEngineByName("JavaScript");
@@ -66,8 +73,9 @@ public class DustJs {
 	 * 
 	 * @param is
 	 * @param os
+	 * @throws IOException 
 	 */
-	public void compile(List<Template> templates) throws ScriptException {
+	public void compile(List<Template> templates) throws ScriptException, IOException {
         for (Template template : templates) {
 			compile(template);
 		}
@@ -81,20 +89,28 @@ public class DustJs {
 	 * @return
 	 * @throws ScriptException
 	 */
-	public String compile(Template template) throws ScriptException {
+	public String compile(Template template) throws ScriptException, IOException {
 		long initMMS = System.currentTimeMillis();
-		System.out.println("Compiling template: " + template.getName() );
 		
-		long id = Thread.currentThread().getId();
-		String templateVariable = "template_" + id;
-		String nameVariable = "name_" + id;
-		engine.put(templateVariable, template.getTemplate() );
-		engine.put(nameVariable, template.getName() );
-		String compiled = (String) engine.eval("dust.compile(\"\" + "+templateVariable+" + \"\", "+nameVariable+")"); // FIXME: Very very very low performance !!!!
-		engine.eval("delete "+templateVariable+";");
-		engine.eval("delete "+nameVariable+";");
-		template.setCompiled(compiled);
-
+		Path cachePath = Paths.get(cacheFolder.toFile().toString(), template.getName(), "__compiled.cache");
+		if(cachePath.toFile().exists() && cachePath.toFile().lastModified() >= template.getLastModification()) {
+			System.out.println("Using cache for template: " + template.getName() );
+			template.setCompiled(IOUtils.toStringFromFile(cachePath));
+		} else {
+			System.out.println("Compiling template: " + template.getName() );
+			long id = Thread.currentThread().getId();
+			String templateVariable = "template_" + id;
+			String nameVariable = "name_" + id;
+			engine.put(templateVariable, template.getTemplate() );
+			engine.put(nameVariable, template.getName() );
+			String compiled = (String) engine.eval("dust.compile(\"\" + "+templateVariable+" + \"\", "+nameVariable+")"); // FIXME: Very very very low performance !!!!
+			engine.eval("delete "+templateVariable+";");
+			engine.eval("delete "+nameVariable+";");
+			template.setCompiled(compiled);
+			cachePath.getParent().toFile().mkdirs();
+			IOUtils.toFileFromString(compiled, cachePath);
+		}
+		
 		System.out.println("Compiled template: " + template.getName() + " in  " + (System.currentTimeMillis()-initMMS) + " mms" );
 		return template.getCompiled();
 	}

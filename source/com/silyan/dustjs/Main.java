@@ -21,7 +21,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		try {
-			ProjectBuilder pb = new ProjectBuilder( Paths.get(args[0]));
+			ProjectBuilder pb = new ProjectBuilder( Paths.get(args[0]), Paths.get(args[3]));
 			pb.compile();
 			pb.render(args[2], Paths.get(args[1]));
 		} catch (Exception e) {

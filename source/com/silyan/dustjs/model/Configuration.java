@@ -87,6 +87,11 @@ public class Configuration {
 	public String clientJSON;
 	
 	/**
+	 * Last modification of any file of configuration.
+	 */
+	public Long lastModification;
+	
+	/**
 	 * @return the serverJSON
 	 */
 	public String getServerJSON() {
@@ -254,6 +259,20 @@ public class Configuration {
 	public void setServerTranslations(Map<String, Map<String, String>> serverTranslations) {
 		this.serverTranslations = serverTranslations;
 	}
+	
+	/**
+	 * @return the lastModification
+	 */
+	public Long getLastModification() {
+		return lastModification;
+	}
+
+	/**
+	 * @param lastModification the lastModification to set
+	 */
+	public void setLastModification(Long lastModification) {
+		this.lastModification = lastModification;
+	}
 
 	/**
 	 * Factory.
@@ -314,11 +333,52 @@ public class Configuration {
 			config.setServerJSON("{}");
 		}
 		Path clientJsonPath = Paths.get(file.getParent().toString(), "client.json" );
-		if(serverJsonPath.toFile().exists()) {
+		if(clientJsonPath.toFile().exists()) {
 			config.setClientJSON(IOUtils.toStringFromFile(clientJsonPath));
 		} else {
 			config.setClientJSON("{}");
 		}
+		
+		
+		
+		// Calculate last modification.
+		long lastTime = 0;
+		
+		if(serverJsonPath.toFile().exists()) { // Calculate last modification of config file
+			long tmpLastTime = serverJsonPath.toFile().lastModified();
+			if(tmpLastTime > lastTime) {
+				lastTime = tmpLastTime;
+			}
+		}
+		
+		if(clientJsonPath.toFile().exists()) { // Calculate last modification of config file
+			long tmpLastTime = clientJsonPath.toFile().lastModified();
+			if(tmpLastTime > lastTime) {
+				lastTime = tmpLastTime;
+			}
+		}
+		
+		for (String keyLang : clientTranslations.keySet()) { // Calculate last modification of i18n files 
+			Path translationFile = Paths.get(file.getParent().toString(), "i18n/client", keyLang );
+			if(translationFile.toFile().exists()) {	
+				long tmpLastTime = translationFile.toFile().lastModified();
+				if(tmpLastTime > lastTime) {
+					lastTime = tmpLastTime;
+				}
+			}
+		}
+		
+		for (String keyLang : clientTranslations.keySet()) { // Calculate last modification of i18n files 
+			Path translationFile = Paths.get(file.getParent().toString(), "i18n/server", keyLang );
+			if(translationFile.toFile().exists()) {	
+				long tmpLastTime = translationFile.toFile().lastModified();
+				if(tmpLastTime > lastTime) {
+					lastTime = tmpLastTime;
+				}
+			}
+		}
+		
+		config.setLastModification(lastTime);
 		
 		return config;
 	}
