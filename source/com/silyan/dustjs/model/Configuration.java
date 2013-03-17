@@ -92,6 +92,11 @@ public class Configuration {
 	public Long lastModification;
 	
 	/**
+	 * Las modification in i18n files.
+	 */
+	public Long lastModificationI18n;
+	
+	/**
 	 * @return the serverJSON
 	 */
 	public String getServerJSON() {
@@ -273,6 +278,20 @@ public class Configuration {
 	public void setLastModification(Long lastModification) {
 		this.lastModification = lastModification;
 	}
+	
+	/**
+	 * @return the lastModificationI18n
+	 */
+	public Long getLastModificationI18n() {
+		return lastModificationI18n;
+	}
+
+	/**
+	 * @param lastModificationI18n the lastModificationI18n to set
+	 */
+	public void setLastModificationI18n(Long lastModificationI18n) {
+		this.lastModificationI18n = lastModificationI18n;
+	}
 
 	/**
 	 * Factory.
@@ -358,6 +377,9 @@ public class Configuration {
 			}
 		}
 		
+		config.setLastModification(lastTime);
+	
+		lastTime = 0;
 		for (String keyLang : clientTranslations.keySet()) { // Calculate last modification of i18n files 
 			Path translationFile = Paths.get(file.getParent().toString(), "i18n/client", keyLang );
 			if(translationFile.toFile().exists()) {	
@@ -377,8 +399,8 @@ public class Configuration {
 				}
 			}
 		}
+		config.setLastModificationI18n(lastTime);
 		
-		config.setLastModification(lastTime);
 		
 		return config;
 	}
