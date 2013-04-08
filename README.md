@@ -7,6 +7,6 @@ There is a short description (first and outdated aproximation) in https://raw.gi
 
 Some features:
  - i18n with default language
- - import/export translations into CSV files, for easily translators job.
+ - import/export translations from/into CSV files, for easily translators job.
  - Parameters accesibles according to selected environment
  - Automatic escape eol and tab characters.
