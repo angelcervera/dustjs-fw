@@ -31,6 +31,10 @@ public class Main {
 	 * For i18nExport action:
 	 * 1 - source folder.
 	 * 2 - target folder.
+	 *    
+	 * For i18nImport action:
+	 * 1 - source folder.
+	 * 2 - target folder.
 	 * 
 	 * @param args
 	 * @throws IOException 
@@ -48,7 +52,7 @@ public class Main {
 					new I18n().fromTemplatesInFolder(Paths.get(args[1]), Paths.get(args[2]), new ObjectMapper());
 				} else {
 					if("i18nImport".equals(args[0])) {
-						throw new Exception("Not implemented");
+						new I18n().fromCSVsInFolder(Paths.get(args[1]), Paths.get(args[2]), new ObjectMapper());
 					} else {
 						throw new Exception("Unknow action.");
 					}

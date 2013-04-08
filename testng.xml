@@ -12,6 +12,8 @@
 			<class name="com.silyan.dustjs.model.ConfigurationTest" />
 			<class name="com.silyan.dustjs.model.PageRenderedTest" />
 			<class name="com.silyan.dustjs.i18n.I18nFileFinderTest" />
+			<class name="com.silyan.dustjs.i18n.CSVFileFinderTest" />
+			<class name="com.silyan.dustjs.i18n.I18nTest" />
 		</classes>
 	</test> <!-- DustJsTest -->
 </suite>

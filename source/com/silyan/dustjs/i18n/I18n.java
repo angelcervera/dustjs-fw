@@ -59,7 +59,7 @@ public class I18n {
 			
 			File i18nFile = Paths.get(targetFolder.toString(), template, "i18n.csv").toFile();
 			i18nFile.getParentFile().mkdirs();
-			try( CSVWriter writer = new CSVWriter(new FileWriter(i18nFile), ',') ) {
+			try( CSVWriter writer = new CSVWriter(new FileWriter(i18nFile), '\t') ) {
 				String[] row = new String[columns];
 				
 				// Generate header.
@@ -85,6 +85,38 @@ public class I18n {
 			
 		}
 		
+	}
+	
+	/**
+	 * From csv in folders to templates structure.
+	 * 
+	 * @param sourceFolder
+	 * @param targetFolder
+	 * @param mapper
+	 * @throws IOException
+	 */
+	public void fromCSVsInFolder(Path sourceFolder, Path targetFolder, ObjectMapper mapper) throws IOException {
+		
+		// mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true); // FIXME: Doesn't work for Maps :(
+		
+		// Read CSVs.
+		Map<String, Map<String, Map<String, String>>> i18nIndexed = new CSVFileFinder( sourceFolder ).getI18nIndexed();
+		
+		// Store in JSON.
+		for (String template : i18nIndexed.keySet()) {
+			Map<String, Map<String,String>> languages = i18nIndexed.get(template);
+			Path targetFolderPath = Paths.get(targetFolder.toString(), template);
+			File targetFolderFile = targetFolderPath.toFile();
+			targetFolderFile.mkdirs();
+			
+			for (String lng : languages.keySet()) {
+				Path filePath = Paths.get(targetFolderPath.toString(), lng + ".json" );
+				try(FileWriter writer = new FileWriter(filePath.toFile())) {
+					mapper.writerWithDefaultPrettyPrinter().writeValue(writer, languages.get(lng));
+				}
+			}
+			
+		}
 	}
 
 }
