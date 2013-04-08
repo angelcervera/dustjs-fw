@@ -23,6 +23,7 @@
 			<classpath>
 				<pathelement location="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar"/>
 				<pathelement location="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar"/>
+				<pathelement location="${lib}/java/opencsv/2.3/opencsv-2.3.jar"/>
 			</classpath>
 		</javac>
 	</target>
@@ -38,7 +39,7 @@
 
 		<jar jarfile="${dist}/${project.name}-${project.version}.jar" basedir="${build}">
 		    <manifest>
-		    	<attribute name="Class-Path" value="lib/jackson-annotations-2.1.0.jar lib/jackson-core-2.1.0.jar lib/jackson-databind-2.1.0.jar"/>
+		    	<attribute name="Class-Path" value="lib/jackson-annotations-2.1.0.jar lib/jackson-core-2.1.0.jar lib/jackson-databind-2.1.0.jar lib/opencsv-2.3.jar"/>
 		      <attribute name="Main-Class" value="com.silyan.dustjs.Main"/>
 		    </manifest>
 		</jar>
@@ -47,6 +48,7 @@
 		<copy file="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar" todir="${dist}/lib"></copy>
 		<copy file="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar" todir="${dist}/lib"></copy>
 		<copy file="${lib}/java/jackson/2.1.0/jackson-annotations-2.1.0.jar" todir="${dist}/lib"></copy>
+		<copy file="${lib}/java/opencsv/2.3/opencsv-2.3.jar" todir="${dist}/lib"></copy>
 		
 	</target>
 	
@@ -57,6 +59,7 @@
 				<pathelement location="${lib}/java/testng/6.8/testng-6.8.jar"/>
 				<pathelement location="${lib}/java/jackson/2.1.0/jackson-core-2.1.0.jar"/>
 				<pathelement location="${lib}/java/jackson/2.1.0/jackson-databind-2.1.0.jar"/>
+				<pathelement location="${lib}/java/opencsv/2.3/opencsv-2.3.jar"/>
 			</classpath>
 		</javac>
 	</target>
@@ -89,6 +92,7 @@
 				<pathelement location="${dist}/lib/jackson-annotations-2.1.0.jar"/>
 				<pathelement location="${dist}/lib/jackson-core-2.1.0.jar"/>
 				<pathelement location="${dist}/lib/jackson-databind-2.1.0.jar"/>
+				<pathelement location="${lib}/java/opencsv/2.3/opencsv-2.3.jar"/>
 			</classpath>
 			<xmlfileset dir="." includes="testng.xml"/>
 		</testng>
