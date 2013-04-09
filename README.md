@@ -10,3 +10,4 @@ Some features:
  - import/export translations from/into CSV files, for easily translators job.
  - Parameters accesibles according to selected environment
  - Automatic escape eol and tab characters.
+ - Compilation caches for increase performance and allow realtime compilation and render in design and development process.
