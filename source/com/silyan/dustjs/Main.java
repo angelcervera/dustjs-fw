@@ -52,7 +52,7 @@ public class Main {
 					new I18n().fromTemplatesInFolder(Paths.get(args[1]), Paths.get(args[2]), new ObjectMapper());
 				} else {
 					if("i18nImport".equals(args[0])) {
-						new I18n().fromCSVsInFolder(Paths.get(args[1]), Paths.get(args[2]), new ObjectMapper());
+						new I18n().fromCSVsInFolder(Paths.get(args[1]), Paths.get(args[2]));
 					} else {
 						throw new Exception("Unknow action.");
 					}

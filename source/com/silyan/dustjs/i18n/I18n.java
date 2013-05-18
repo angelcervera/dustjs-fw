@@ -17,6 +17,8 @@ import java.util.Set;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -95,7 +97,10 @@ public class I18n {
 	 * @param mapper
 	 * @throws IOException
 	 */
-	public void fromCSVsInFolder(Path sourceFolder, Path targetFolder, ObjectMapper mapper) throws IOException {
+	public void fromCSVsInFolder(Path sourceFolder, Path targetFolder) throws IOException {
+		
+		
+		JsonFactory jsonFactory = new JsonFactory();
 		
 		// mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true); // FIXME: Doesn't work for Maps :(
 		
@@ -112,7 +117,24 @@ public class I18n {
 			for (String lng : languages.keySet()) {
 				Path filePath = Paths.get(targetFolderPath.toString(), lng + ".json" );
 				try(FileWriter writer = new FileWriter(filePath.toFile())) {
-					mapper.writerWithDefaultPrettyPrinter().writeValue(writer, languages.get(lng));
+					
+					// Language values map.
+					Map<String,String> mapValues = languages.get(lng);
+					
+					// Order keys.
+					List<String> keys = new ArrayList<>(mapValues.keySet());
+					Collections.sort(keys);
+					
+					// Wrtie json
+					JsonGenerator jg = jsonFactory.createJsonGenerator(writer);
+					jg.useDefaultPrettyPrinter();
+					jg.writeStartObject();
+					for (String key : keys) {
+						jg.writeStringField(key, mapValues.get(key));
+					}
+					jg.writeEndObject();
+					jg.close();
+					
 				}
 			}
 			

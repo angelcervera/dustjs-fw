@@ -18,6 +18,6 @@ public class I18nTest {
 	@Test
 	public void fromCSVsInFolder() throws IOException {
 		I18n i18n = new I18n();
-		i18n.fromCSVsInFolder(Paths.get("./test/com/silyan/dustjs/csvtest"), Paths.get("./build/test/i18nJSON"), new ObjectMapper());
+		i18n.fromCSVsInFolder(Paths.get("./test/com/silyan/dustjs/csvtest"), Paths.get("./build/test/i18nJSON"));
 	}
 }
