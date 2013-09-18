@@ -29,5 +29,23 @@
 		return chunk.write(value);
 	};
 	dust.helpers.confParam = confParam;
+	
+	var contextPathI18N = function( chunk, context, bodies, params ) {
+		var contextpath, language;
+		params = params || {};
+		if(dust.configuration == undefined || dust.configuration.parameters == undefined ) {
+			return chunk.write("dust.configuration.parameters not initialised.");
+		}
+		contextpath = dust.configuration.parameters['contextpath'];
+		if(contextpath == undefined) {
+			contextpath = "not value for configuration parameter [contextpath]";
+		}
+		language = dust.configuration.parameters['language'];
+		if(language == undefined) {
+			language = "not value for configuration parameter [language]";
+		}
+		return chunk.write(contextpath + '/' + language);
+	};
+	dust.helpers.contextPathI18N = contextPathI18N;
 
 })(dust);

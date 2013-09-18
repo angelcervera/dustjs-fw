@@ -189,6 +189,7 @@ public class PageRendered {
 		
 		// Generate list of parameters for server side.
 		parameters = new ArrayList<>();
+		parameters.add( getDefaultParameters(language) );		// Generate list of default parameters
 		parameters.add( project.getConfig().getEnvironments().get(environment) ); // Adds project parameters.
 		for (String referencedTemplateName : template.getConfigutation().getServerTemplates()) { // Adds templates parameters.
 			Template referencedTemplate = templates.get(referencedTemplateName);
@@ -202,6 +203,7 @@ public class PageRendered {
 		parameters.add(templateEnvironment); // Adds page parameters.
 		render.serverEnvironment = JacksonUtils.mergeListOfMaps(parameters);
 		
+		
 		// Generate JSON json.
 		Map<String, Object> json = render.getServerJSON();
 		render.setConfiguration( mapper.writeValueAsString(json) );
@@ -210,6 +212,12 @@ public class PageRendered {
 	}
 	
 	
+	private static Map<String, Object> getDefaultParameters(String language) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("language", language);
+		return map;
+	}
+
 	protected Map<String, Object> getServerJSON() {
 		Map<String, Object> retValue = new HashMap<String, Object>();
 		

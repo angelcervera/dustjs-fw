@@ -28,7 +28,8 @@
 	<script type="text/javascript">
 	var contextpath = '{@confParam key="contextpath"/}';
 	</script>
-	<script type="text/javascript" src="{@confParam key="contextpath"/}/example.js"></script>
+	<script type="text/javascript" src="{@confParam key="contextpath"/}/{@confParam key="language"/}/example.js"></script>
+	<script type="text/javascript" src="{@contextPathI18N/}/example2.js"></script>
 {+footerJSContent/}
 </body>
 </html>
