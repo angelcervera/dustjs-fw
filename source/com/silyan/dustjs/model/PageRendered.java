@@ -151,6 +151,17 @@ public class PageRendered {
 			}
 		}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// Generate i18n.
 		// It must iterates over i18n translations in all templates used and merge them with translations in page.
 		String defaultLanguage = project.getConfig().getDefaultLanguage();
@@ -168,6 +179,20 @@ public class PageRendered {
 		generateServerTranslations(defaultLanguage, name, project, lngTranslations);
 		generateServerTranslations(language, name, project, lngTranslations);
 		render.serverTranslations = JacksonUtils.mergeListOfMaps(lngTranslations);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		// Generate list of parameters for client side.
 		List<Map> parameters = new ArrayList<>();
@@ -189,7 +214,7 @@ public class PageRendered {
 		
 		// Generate list of parameters for server side.
 		parameters = new ArrayList<>();
-		parameters.add( getDefaultParameters(language) );		// Generate list of default parameters
+		parameters.add( getDefaultParameters(language, environment) );		// Generate list of default parameters
 		parameters.add( project.getConfig().getEnvironments().get(environment) ); // Adds project parameters.
 		for (String referencedTemplateName : template.getConfigutation().getServerTemplates()) { // Adds templates parameters.
 			Template referencedTemplate = templates.get(referencedTemplateName);
@@ -204,17 +229,30 @@ public class PageRendered {
 		render.serverEnvironment = JacksonUtils.mergeListOfMaps(parameters);
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// Generate JSON json.
-		Map<String, Object> json = render.getServerJSON();
+		Map<String, Object> json = render.getServerJSON( );
 		render.setConfiguration( mapper.writeValueAsString(json) );
 		
 		return render;
 	}
 	
 	
-	private static Map<String, Object> getDefaultParameters(String language) {
+	private static Map<String, Object> getDefaultParameters(String language, String environment) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("language", language);
+		map.put("environment", environment);
 		return map;
 	}
 

@@ -47,5 +47,27 @@
 		return chunk.write(contextpath + '/' + language);
 	};
 	dust.helpers.contextPathI18N = contextPathI18N;
+	
+	var ifEnvironment  = function( chunk, context, bodies, params ){
+		var body = bodies.block;
+		if( params && params.env) {
+			if( params.env.split(',').indexOf(dust.configuration.parameters['environment']) != -1 ) {
+				if(body) {
+					return chunk.render( bodies.block, context );
+				}
+				else {
+					_console.log( "Missing body block in the ifEnvironment helper!" );
+					return chunk;
+				}
+			}
+		}
+		// no condition
+		else {
+			_console.log( "No environment list given in the ifEnvironment helper!" );
+		}
+		return chunk;
+	};
+	dust.helpers.ifEnvironment = ifEnvironment;
+
 
 })(dust);

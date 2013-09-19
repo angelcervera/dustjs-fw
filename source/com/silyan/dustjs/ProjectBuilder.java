@@ -143,7 +143,7 @@ public class ProjectBuilder {
 				
 				File file = filePath.toFile();
 				try(
-						FileWriter fw = new FileWriter(file);
+					FileWriter fw = new FileWriter(file);
 				) {
 					
 					fw.write(pageRendered.getRendered());

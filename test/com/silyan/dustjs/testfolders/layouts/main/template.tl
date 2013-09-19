@@ -29,7 +29,10 @@
 	var contextpath = '{@confParam key="contextpath"/}';
 	</script>
 	<script type="text/javascript" src="{@confParam key="contextpath"/}/{@confParam key="language"/}/example.js"></script>
-	<script type="text/javascript" src="{@contextPathI18N/}/example2.js"></script>
+	<script type="text/javascript" src="{@contextPathI18N/}/example3.js"></script>
+	{@ifEnvironment env="test,design"}
+	<!-- ENVIROMENT test or desing -->
+	{/ifEnvironment}
 {+footerJSContent/}
 </body>
 </html>
