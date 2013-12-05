@@ -57,7 +57,7 @@ public class ProjectBuilder {
 	 */
 	protected void compile() throws ScriptException, IOException  {
 		
-		System.out.println("Found " + (project.getComponents().size() + project.getLayouts().size() + project.getPages().size()) + " templates.");
+		System.out.println("Found total of " + (project.getComponents().size() + project.getLayouts().size() + project.getPages().size()) + " templates.");
 		System.out.println("Found " + project.getComponents().size() + " components.");
 		System.out.println("Found " + project.getLayouts().size() + " layouts.");
 		System.out.println("Found " + project.getPages().size() + " pages.");
