@@ -23,10 +23,10 @@ public class Main {
 	 * 0 - action: render, i18nExport, i18nImport
 	 * 
 	 * For render action:
-	 * 1 -
-	 * 2 -
-	 * 3 -
-	 * 4 -
+	 * 1 - root folder
+	 * 2 - target folder
+	 * 3 - environment
+	 * 4 - cache folder
 	 *    
 	 * For i18nExport action:
 	 * 1 - source folder.

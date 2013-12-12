@@ -36,6 +36,14 @@ public class ProjectBuilder {
 	
 	protected ObjectMapper jsonMapper = new ObjectMapper();
 	
+	/**
+	 * Controle over project build.
+	 * 
+	 * @param rootFolder root folder
+	 * @param cacheFolder cache folder
+	 * @throws ScriptException
+	 * @throws IOException
+	 */
 	public ProjectBuilder(Path rootFolder, Path cacheFolder) throws ScriptException, IOException {
 		dustJs = new DustJs(cacheFolder);
 		project = Project.fromFolder(rootFolder, jsonMapper);
