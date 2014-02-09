@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.script.ScriptException;
 
@@ -70,27 +73,34 @@ public class ProjectBuilder {
 		System.out.println("Found " + project.getLayouts().size() + " layouts.");
 		System.out.println("Found " + project.getPages().size() + " pages.");
 
+		ExecutorService executor = Executors.newFixedThreadPool(4);
+		addToPool( executor, project.getComponents() );
+		addToPool( executor, project.getLayouts() );
+		addToPool( executor, project.getPages() );
+		executor.shutdown();
 		
-		dustJs.compile( project.getComponents() );
-		dustJs.compile( project.getLayouts() );
-		dustJs.compile( project.getPages() );
-		
-//		// Concurrent process
-//		ExecutorService executorService = Executors.newFixedThreadPool(1);
-//		addToPool( executorService, project.getComponents() );
-//		addToPool( executorService, project.getLayouts() );
-//		addToPool( executorService, project.getPages() );
-		
+		try {
+			boolean terminated = executor.awaitTermination(1, TimeUnit.MINUTES);
+			if(!terminated) {
+				System.err.println("Timeout compiling .......");
+				return;
+			}
+		} catch (InterruptedException e) {
+			System.err.println("Compiling interrupted .......");
+			e.printStackTrace();
+			return;
+		}
+
 		dustJs.loadSource( project.getComponents() );
 		dustJs.loadSource( project.getLayouts() );
 		dustJs.loadSource( project.getPages() );
 	}
 	
-//	private void addToPool(ExecutorService executorService, List<Template> templates) {
-//		for (Template template : templates) {
-//			executorService.execute( new DustJSCompilerTask(dustJs, template));
-//		}
-//	}
+	private void addToPool(ExecutorService executorService, List<Template> templates) {
+		for (Template template : templates) {
+			executorService.execute( new DustJSCompilerTask(dustJs, template));
+		}
+	}
 	
 	/**
 	 * With all templates compiled previously, renders statics ( pages ).
