@@ -21,7 +21,7 @@ public class ProjectBuilderTest {
 	@BeforeClass
 	public void init() throws ScriptException, IOException {
 		projectBuilder = new ProjectBuilder(
-			Paths.get("./test/com/silyan/dustjs/testfolders"),
+			Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"),
 			Paths.get("./build/test-cache")
 		);
 	}

@@ -15,7 +15,7 @@ public class ProjectTest {
 	public void fromFolder() {
 		try {
 			Project project = Project.fromFolder(
-					Paths.get("./test/com/silyan/dustjs/testfolders"),
+					Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"),
 					new ObjectMapper()
 			);
 			Assert.assertEquals(project.getLayouts().size(), 1);

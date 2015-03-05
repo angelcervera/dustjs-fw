@@ -12,9 +12,9 @@ public class CSVFileFinderTest {
 	public void addFolder() throws IOException {
 		
 		CSVFileFinder finder = new CSVFileFinder();
-		finder.sourceFolder = Paths.get("./test/com/silyan/dustjs/csvtest/pages/com/silyan/dustjs");
+		finder.sourceFolder = Paths.get("./src/test/resources/com/silyan/dustjs/csvtest/pages/com/silyan/dustjs");
 
-		finder.addCSV( Paths.get("./test/com/silyan/dustjs/csvtest/pages/com/silyan/dustjs", "/proof/user/i18n/server/i18n.csv") );
+		finder.addCSV( Paths.get("./src/test/resources/com/silyan/dustjs/csvtest/pages/com/silyan/dustjs", "/proof/user/i18n/server/i18n.csv") );
 		
 		Assert.assertEquals(finder.getI18nIndexed().size(), 1);
 		Assert.assertNotNull(finder.getI18nIndexed().get("/proof/user/i18n/server"));
@@ -27,7 +27,7 @@ public class CSVFileFinderTest {
 	
 	@Test
 	public void CSVFileFinder() throws IOException {
-		CSVFileFinder finder = new CSVFileFinder( Paths.get("./test/com/silyan/dustjs/csvtest") );
+		CSVFileFinder finder = new CSVFileFinder( Paths.get("./src/test/resources/com/silyan/dustjs/csvtest") );
 		Assert.assertEquals(finder.getI18nIndexed().size(), 6);
 	}
 }

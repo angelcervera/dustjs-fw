@@ -16,7 +16,7 @@ public class PageRenderedTest {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Project project = Project.fromFolder(
-					Paths.get("./test/com/silyan/dustjs/testfolders"),
+					Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"),
 					mapper
 			);
 			

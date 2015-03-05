@@ -19,7 +19,7 @@ public class JacksonUtilsTest {
 	public void loadFilesAsMap() {
 		
 		try {
-			Map<String,Map<String,String>> maps = JacksonUtils.loadFilesAsMap(Paths.get("test/com/silyan/dustjs/testfolders/layouts/main/i18n/client"), mapper);
+			Map<String,Map<String,String>> maps = JacksonUtils.loadFilesAsMap(Paths.get("src/test/resources/com/silyan/dustjs/testfolders/layouts/main/i18n/client"), mapper);
 		
 			Assert.assertEquals(maps.size(), 2);
 			Assert.assertNotNull(maps.get("es"));

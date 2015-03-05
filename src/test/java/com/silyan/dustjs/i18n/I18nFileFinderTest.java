@@ -21,10 +21,10 @@ public class I18nFileFinderTest {
 	public void addFolder() throws IOException {
 		
 		I18nFileFinder finder = new I18nFileFinder();
-		finder.sourceFolder = Paths.get("./test/com/silyan/dustjs/testfolders/pages/com/silyan/dustjs");
+		finder.sourceFolder = Paths.get("./src/test/resources/com/silyan/dustjs/testfolders/pages/com/silyan/dustjs");
 		finder.mapper = new ObjectMapper();
 		
-		finder.addFolder( Paths.get("./test/com/silyan/dustjs/testfolders/pages/com/silyan/dustjs/proof/user", "i18n/client") );
+		finder.addFolder( Paths.get("./src/test/resources/com/silyan/dustjs/testfolders/pages/com/silyan/dustjs/proof/user", "i18n/client") );
 		
 		Assert.assertEquals(finder.getI18nIndexed().size(), 1);
 		Assert.assertNotNull(finder.getI18nIndexed().get("/proof/user/i18n/client"));
@@ -37,7 +37,7 @@ public class I18nFileFinderTest {
 	
 	@Test
 	public void I18nFileFinder() throws IOException {
-		I18nFileFinder finder = new I18nFileFinder( Paths.get("./test/com/silyan/dustjs/testfolders"), "*.tl", new ObjectMapper() );
+		I18nFileFinder finder = new I18nFileFinder( Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"), "*.tl", new ObjectMapper() );
 		Assert.assertEquals(finder.getI18nIndexed().size(), 6);
 	}
 	

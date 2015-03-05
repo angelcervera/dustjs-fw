@@ -14,7 +14,7 @@ public class ConfigurationTest {
 	public void fromFile() {
 		try {
 			Configuration projectConfig = Configuration.fromFile(
-					Paths.get("./test/com/silyan/dustjs/testfolders/config.json"),
+					Paths.get("./src/test/resources/com/silyan/dustjs/testfolders/config.json"),
 					new ObjectMapper()
 			);
 			

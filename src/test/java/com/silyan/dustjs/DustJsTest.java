@@ -31,7 +31,7 @@ public class DustJsTest {
 		try {
 			
 			for (int i = 1; i < 5; i++) {
-				TemplateModelTest test = new TemplateModelTest("test/com/silyan/dustjs/test"+i+"/test", IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.tl"));
+				TemplateModelTest test = new TemplateModelTest("src/test/resources/com/silyan/dustjs/test"+i+"/test", IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.tl"));
 				test.compiledExpected = IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.compiled" );
 				templates.add( test );
 			}
@@ -58,7 +58,7 @@ public class DustJsTest {
 			
 			for (int i = 1; i < 3; i++) {
 				RenderModelTest test = new RenderModelTest(
-					"test/com/silyan/dustjs/test"+i+"/test",
+					"src/test/resources/com/silyan/dustjs/test"+i+"/test",
 					IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.json" )
 				);
 				test.renderedExpected = IOUtils.toStringFromClassPath("com/silyan/dustjs/test"+i+"/test.rendered" );

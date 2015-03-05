@@ -16,14 +16,14 @@ public class TemplateTest {
 	public void fromFolder() {
 		try {
 			Template template = Template.fromFolder(
-					Paths.get("./test/com/silyan/dustjs/testfolders"),
-					Paths.get("./test/com/silyan/dustjs/testfolders/layouts/main"),
+					Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"),
+					Paths.get("./src/test/resources/com/silyan/dustjs/testfolders/layouts/main"),
 					new ObjectMapper()
 			);
 			Assert.assertEquals(template.getName(), "/layouts/main");
 			Assert.assertEquals(template.getType(), Template.TemplateTypes.LAYOUT);
 			
-			Assert.assertEquals(template.getTemplate(), IOUtils.toStringFromFile(Paths.get("./test/com/silyan/dustjs/testfolder_results/layout_escaped_template.tl")));
+			Assert.assertEquals(template.getTemplate(), IOUtils.toStringFromFile(Paths.get("./src/test/resources/com/silyan/dustjs/testfolder_results/layout_escaped_template.tl")));
 		
 			// Test configuration is loaded.
 			Assert.assertNotNull(template.getConfigutation());

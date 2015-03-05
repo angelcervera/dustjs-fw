@@ -12,12 +12,12 @@ public class I18nTest {
 	@Test
 	public void fromTemplatesInFolder() throws IOException {
 		I18n i18n = new I18n();
-		i18n.fromTemplatesInFolder(Paths.get("./test/com/silyan/dustjs/testfolders"), Paths.get("./build/test/i18nCSV"), new ObjectMapper());
+		i18n.fromTemplatesInFolder(Paths.get("./src/test/resources/com/silyan/dustjs/testfolders"), Paths.get("./build/test/i18nCSV"), new ObjectMapper());
 	}
 	
 	@Test
 	public void fromCSVsInFolder() throws IOException {
 		I18n i18n = new I18n();
-		i18n.fromCSVsInFolder(Paths.get("./test/com/silyan/dustjs/csvtest"), Paths.get("./build/test/i18nJSON"));
+		i18n.fromCSVsInFolder(Paths.get("./src/test/resources/com/silyan/dustjs/csvtest"), Paths.get("./build/test/i18nJSON"));
 	}
 }
