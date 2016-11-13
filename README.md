@@ -1,6 +1,8 @@
 dustjs-fw
 =========
 
+> **Important note:** Now, it is obsolete in favor of other react frameworks.
+
 Proof concept  for new view layer in the SimplexPortal ( http://www.simplexportal.com/en/index.html ) architecture.
 
 There is a short description (first and outdated aproximation) in https://raw.github.com/angelcervera/dustjs-fw/master/docs/documentation.txt
